@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "_meta": {
+    "message": "com.monadiccloud.sample.application.amqp.request",
+    "version": "1.0",
+    "stereotype": "REQUEST"
+  },
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Message timestamp",
+      "description": "The creation time of the message."
+    },
+    "correlationId": {
+      "type": "string",
+      "title": "Correlation identifier",
+      "description": "The correlation identifier of the message."
+    },
+    "reply-to": {
+      "type": "string",
+      "javaName": "replyTo",
+      "title": "Reply-to identifier.",
+      "description": "The reply to queue binding on the response exchange"
+    },
+    "args": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "timestamp",
+    "correlationId",
+    "reply-to",
+    "args"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "messages": [
+    {
+      "message": "com.monadiccloud.sample.application.amqp.request",
+      "exchange": "exchange.monadiccloud.sample.request",
+      "routingKey": "monadiccloud.sample.request"
+    },
+    {
+      "message": "com.monadiccloud.sample.application.amqp.response",
+      "exchange": "exchange.monadiccloud.sample.response",
+      "routingKey": "{replyTo}"
+    }
+  ]
+}

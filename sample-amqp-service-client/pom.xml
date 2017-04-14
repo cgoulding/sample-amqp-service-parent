@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>sample-amqp-service-client</artifactId>
+
+    <parent>
+        <artifactId>sample-amqp-service-parent</artifactId>
+        <groupId>com.monadiccloud.core.amqp</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.monadiccloud.core.amqp</groupId>
+            <artifactId>core-amqp-context</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.monadiccloud.core.amqp</groupId>
+            <artifactId>core-amqp-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.monadiccloud.core.amqp</groupId>
+            <artifactId>sample-amqp-service-api</artifactId>
+            <classifier>schemas</classifier>
+            <type>zip</type>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <id>unpack-json-schemas-sample-amqp-service-api</id>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeGroupIds>com.monadiccloud.core.amqp</includeGroupIds>
+                            <includeArtifactIds>sample-amqp-service-api</includeArtifactIds>
+                            <includes>**\/*.jsd</includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <version>0.4.27</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.monadiccloud.core.amqp</groupId>
+                        <artifactId>core-contract-generation</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>generate-json-model-sample-amqp-service-api</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${project.build.directory}/dependency/sample-amqp-service-api/schema/jsd
+                            </sourceDirectory>
+                            <targetPackage>com.monadiccloud.sample.applications.amqpservice.client.api</targetPackage>
+                            <outputDirectory>${project.build.directory}/generated-sources/sample-amqp-service-api
+                            </outputDirectory>
+                            <removeOldOutput>true</removeOldOutput>
+                            <includeConstructors>true</includeConstructors>
+                            <serializable>false</serializable>
+                            <includeAdditionalProperties>false</includeAdditionalProperties>
+                            <useCommonsLang3>true</useCommonsLang3>
+                            <customAnnotator>
+                                com.monadiccloud.core.contract.json.generation.plugins.jsonschema2pojo.MessageAnnotator
+                            </customAnnotator>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
